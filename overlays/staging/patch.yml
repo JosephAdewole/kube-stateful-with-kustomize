@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+      - name: wordpress
+        image: wordpress:6.2.1-apache
+        env:
+          - name: WORDPRESS_DB_HOST
+            value: my-app-wordpress-mysql-prod
+          - name: WORDPRESS_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-pass
+                key: password
